@@ -28,8 +28,14 @@
       "esri/layers/TileLayer",
       "esri/Basemap",
 
-      "utils/ExaggeratedElevationLayer"
-    ], function (Map, SceneView, TileLayer, Basemap, ExaggeratedElevationLayer) {
+      "utils/ExaggeratedElevationLayer",
+
+      "esri/Graphic",
+      "esri/geometry/Point"
+    ], function (Map, SceneView, TileLayer, Basemap, ExaggeratedElevationLayer, Graphic, Point) {
+
+
+      const R = 6358137; // approximate radius of the Earth in m
 
       const basemap = new Basemap({
         baseLayers: [
@@ -80,6 +86,27 @@
         exaggerationTopography: 40
       })];
 
+      const origin = new Point({
+        x: 0, y: -90, z: -(2 * R)
+      });
+
+      const oceanSurface = new Graphic({
+        geometry: origin,
+        symbol: {
+          type: "point-3d",
+          symbolLayers: [
+            {
+              type: "object",
+              resource: {
+                href: "./sphere/scene.gltf"
+              },
+              width: 2 * R
+            }
+          ]
+        }
+      });
+
+      view.graphics.add(oceanSurface);
 
     });
   </script>
