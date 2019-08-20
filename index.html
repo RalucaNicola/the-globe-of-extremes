@@ -9,14 +9,27 @@
   <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
   <link rel="stylesheet" href="./style.css" />
 
+  <script>
+    const locationPath = location.pathname.replace(/\/[^\/]+$/, "");
+    dojoConfig = {
+      packages: [{
+        name: "utils",
+        location: locationPath + "utils"
+      }],
+      async: true
+    };
+  </script>
+
   <script src="https://js.arcgis.com/4.12/"></script>
   <script>
     require([
       "esri/Map",
       "esri/views/SceneView",
       "esri/layers/TileLayer",
-      "esri/Basemap"
-    ], function (Map, SceneView, TileLayer, Basemap) {
+      "esri/Basemap",
+
+      "utils/ExaggeratedElevationLayer"
+    ], function (Map, SceneView, TileLayer, Basemap, ExaggeratedElevationLayer) {
 
       const basemap = new Basemap({
         baseLayers: [
@@ -61,6 +74,12 @@
       });
 
       view.ui.empty("top-left");
+
+      map.ground.layers = [new ExaggeratedElevationLayer({
+        exaggerationBathymetry: 60,
+        exaggerationTopography: 40
+      })];
+
 
     });
   </script>
