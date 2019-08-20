@@ -9,3 +9,11 @@ body,
   color: #323232;
   font-family: "Avenir Next W00", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+body {
+  background: radial-gradient(#12bff2, #0269a1);
+}
+
+#viewDiv canvas {
+  filter: saturate(1.2) drop-shadow(0 0 20px white);
+}
