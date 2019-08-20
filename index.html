@@ -31,11 +31,13 @@
       "utils/ExaggeratedElevationLayer",
 
       "esri/Graphic",
-      "esri/geometry/Point"
-    ], function (Map, SceneView, TileLayer, Basemap, ExaggeratedElevationLayer, Graphic, Point) {
+      "esri/geometry/Point",
+      "esri/geometry/Mesh"
+    ], function (Map, SceneView, TileLayer, Basemap, ExaggeratedElevationLayer, Graphic, Point, Mesh) {
 
 
       const R = 6358137; // approximate radius of the Earth in m
+      const offset = 300000; // offset from the ground used for the clouds
 
       const basemap = new Basemap({
         baseLayers: [
@@ -107,6 +109,29 @@
       });
 
       view.graphics.add(oceanSurface);
+
+      const cloudsSphere = Mesh.createSphere(new Point({
+        x: 0, y: -90, z: -(2 * R + offset)
+      }), {
+        size: 2 * (R + offset),
+        material: {
+          colorTexture: './clouds-nasa.png',
+          doubleSided: false
+        },
+        densificationFactor: 4
+      });
+
+      cloudsSphere.components[0].shading = "flat";
+
+      const clouds = new Graphic({
+        geometry: cloudsSphere,
+        symbol: {
+          type: "mesh-3d",
+          symbolLayers: [{ type: "fill" }]
+        }
+      });
+
+      view.graphics.add(clouds);
 
     });
   </script>
