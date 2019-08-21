@@ -26,6 +26,7 @@
       "esri/Map",
       "esri/views/SceneView",
       "esri/layers/TileLayer",
+      "esri/layers/GeoJSONLayer",
       "esri/Basemap",
 
       "utils/ExaggeratedElevationLayer",
@@ -33,7 +34,7 @@
       "esri/Graphic",
       "esri/geometry/Point",
       "esri/geometry/Mesh"
-    ], function (Map, SceneView, TileLayer, Basemap, ExaggeratedElevationLayer, Graphic, Point, Mesh) {
+    ], function (Map, SceneView, TileLayer, GeoJSONLayer, Basemap, ExaggeratedElevationLayer, Graphic, Point, Mesh) {
 
 
       const R = 6358137; // approximate radius of the Earth in m
@@ -78,6 +79,19 @@
             min: 10000000,
             max: 25000000
           }
+        },
+        popup: {
+          dockEnabled: true,
+          dockOptions: {
+            position: "top-right",
+            breakpoint: false,
+            buttonEnabled: false
+          },
+          collapseEnabled: false
+        },
+        highlightOptions: {
+          color: [255, 255, 255],
+          haloOpacity: 0.5
         }
       });
 
@@ -132,6 +146,58 @@
       });
 
       view.graphics.add(clouds);
+
+      const extremesLayer = new GeoJSONLayer({
+        url: "extreme-points.geojson",
+        elevationInfo: {
+          mode: "absolute-height",
+          offset: offset
+        },
+        renderer: {
+          type: "simple",
+          symbol: {
+            type: "point-3d",
+            symbolLayers: [{
+              type: "icon",
+              resource: { primitive: "circle" },
+              material: { color: [0, 0, 0, 0] },
+              outline: { color: [245, 99, 66, 1], size: 4 },
+              size: 10
+            }, {
+              type: "icon",
+              resource: { primitive: "circle" },
+              material: { color: [0, 0, 0, 0] },
+              outline: { color: [245, 99, 66, 1], size: 2 },
+              size: 30
+            }]
+          }
+        },
+        popupTemplate: {
+          title: "{name}",
+          content: `
+            <div class="popupImage">
+              <img src="{imageUrl}" alt="{imageCaption}"/>
+            </div>
+            <div class="popupImageCaption">{imageCaption}</div>
+            <div class="popupDescription">
+              <p class="info">
+                <span class="esri-icon-favorites"></span> {type}
+              </p>
+              <p class="info">
+                <span class="esri-icon-map-pin"></span> {location}
+              </p>
+              <p class="info">
+                <span class="esri-icon-documentation"></span> {facts}
+              </p>
+            </div>
+            <div class="popupCredits">
+              Sources: <a href="{sourceUrl}" target="_blank">{source}</a> released under <a href="{sourceCopyrightUrl}">{sourceCopyright}</a>, <a href="{imageCopyrightUrl}" target="_blank">{imageCopyright}</a>.
+            </div>
+          `
+        }
+      });
+
+      map.layers.add(extremesLayer);
 
     });
   </script>
