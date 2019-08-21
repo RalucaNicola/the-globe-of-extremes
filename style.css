@@ -64,3 +64,93 @@ p.info {
   font-size: 0.8em;
   padding: 0 2.5em 0.5em 2.5em;
 }
+
+/* intro and about page */
+
+#viewDiv {
+  filter: blur(10px);
+  transition: filter 0.4s;
+}
+
+#container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+#introDiv {
+  position: relative;
+  width: 60%;
+  max-width: 700px;
+  min-height: 350px;
+  flex: 1;
+  background-color: #fff;
+  padding: 3em;
+  box-sizing: border-box;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+#introDiv h1 {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+#introDiv p {
+  line-height: 1.5em;
+}
+
+#container a:hover {
+  color: white;
+  background: rgb(2, 105, 161);
+}
+
+#container a {
+  color: rgb(2, 105, 161);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+button.esri-icon-close {
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#about {
+  color: white;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+#start-globe {
+  border-radius: 0.2em;
+  padding: 0.8em 1.5em;
+  font-size: 1em;
+  margin: 2em auto;
+  display: block;
+  border: 1px solid rgba(2, 105, 161, 1);
+  background: transparent;
+  color: rgba(2, 105, 161, 1);
+}
+
+#start-globe:hover {
+  color: white;
+  background: rgb(2, 105, 161);
+  border: 1px solid white;
+  transition: all 0.5s;
+  cursor: pointer;
+}
