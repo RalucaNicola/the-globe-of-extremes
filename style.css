@@ -65,6 +65,10 @@ p.info {
   padding: 0 2.5em 0.5em 2.5em;
 }
 
+.esri-attribution__sources a {
+  color: #323232;
+}
+
 /* intro and about page */
 
 #viewDiv {
