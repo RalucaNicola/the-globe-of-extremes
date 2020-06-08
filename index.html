@@ -6,7 +6,7 @@
   <meta name="viewport" content="initial-scale=1" />
   <title>The globe of extremes</title>
 
-  <link rel="stylesheet" href="https://js.arcgis.com/4.12/esri/themes/light/main.css" />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
   <link rel="stylesheet" href="./style.css" />
 
   <script>
@@ -20,7 +20,7 @@
     };
   </script>
 
-  <script src="https://js.arcgis.com/4.12/"></script>
+  <script src="https://js.arcgis.com/4.15/"></script>
   <script>
     require([
       "esri/Map",
@@ -109,19 +109,29 @@
         x: 0, y: -90, z: -(2 * R)
       });
 
+      const oceanSurfaceMesh = Mesh.createSphere(
+        origin, {
+        size: {
+          width: 2 * R,
+          depth: 2 * R,
+          height: 2 * R
+        },
+        densificationFactor: 5,
+        material: {
+          color: [0, 210, 210, 0.8],
+          metallic: 0.9,
+          roughness: 0.8,
+          doubleSided: false
+        }
+      });
+
       const oceanSurface = new Graphic({
-        geometry: origin,
+        geometry: oceanSurfaceMesh,
         symbol: {
-          type: "point-3d",
-          symbolLayers: [
-            {
-              type: "object",
-              resource: {
-                href: "./sphere/scene.gltf"
-              },
-              width: 2 * R
-            }
-          ]
+          type: "mesh-3d",
+          symbolLayers: [{
+            type: "fill"
+          }]
         }
       });
 
@@ -156,7 +166,7 @@
           mode: "absolute-height",
           offset: offset
         },
-        copyright: "Data from <a href=\"https://en.wikipedia.org/wiki/Extreme_points_of_Earth\" target=\"_blank\">Extreme points on Earth</a> Wikipedia article | <a href=\"https://sketchfab.com/3d-models/sphere-b31b12ffa93a40f48c9d991b6f168f4d\" target=\"_blank\"> 3D sphere model</a> by 3D Various under CC BY 4.0 used for the ocean surface | <a href=\"https://visibleearth.nasa.gov/view.php?id=57747\" target=\"_blank\">Cloud image</a> from NASA Goddard Space Flight Center (image by Reto Stöckli) for the cloud layer",
+        copyright: "Data from <a href=\"https://en.wikipedia.org/wiki/Extreme_points_of_Earth\" target=\"_blank\">Extreme points on Earth</a> Wikipedia article | <a href=\"https://visibleearth.nasa.gov/view.php?id=57747\" target=\"_blank\">Cloud image</a> from NASA Goddard Space Flight Center (image by Reto Stöckli) for the cloud layer",
         renderer: {
           type: "simple",
           symbol: {
@@ -270,7 +280,7 @@
           <a href="https://www.esri.com/arcgis-blog/author/raluca_zurich/" target="_blank">Raluca</a> after getting
           inspired by the <a href="https://www.half-earthproject.org/maps/" target="_blank">Half-Earth Project globe</a>, and <a href="https://www.fonterra.com/nz/en/campaign/from-here-to-everywhere.html#/home"
             target="_blank">this awesome globe</a> and <a href="https://www.instagram.com/p/Bt8zyI-gsqW/"
-            target="_blank">this otherawesome globe</a>. We used <a
+            target="_blank">this other awesome globe</a>. We used <a
             href="https://developers.arcgis.com/javascript/" target="_blank">ArcGIS API for JavaScript</a> to create the interactive globe and <a href="https://pro.arcgis.com/"
             target="_blank">ArcGIS Pro</a> to create the basemap. Many thanks to Arno Fiva, Christian Iten and Jesse van den Kieboom for the awesome feedback.</p>
         <p>Read this <a href="https://www.esri.com/arcgis-blog/products/js-api-arcgis/3d-gis/interactive-3d-globe/" target="_blank">blog post</a> to find out how the globe was created. For the curious coders, here is the <a href="https://github.com/RalucaNicola/the-globe-of-extremes" target="_blank">Github repository</a>.</p>
